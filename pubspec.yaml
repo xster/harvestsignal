@@ -1,0 +1,28 @@
+name: harvest_signal
+description: HarvestSignal shows currently in-season fresh produces in your area
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: https://fonts.gstatic.com/s/nunito/v9/ZvK1I6E_n0tqLlSfX5iQt4X0hVgzZQUfRDuZrPvH3D8.woff2
+          weight: 300
+        - asset: https://fonts.gstatic.com/s/nunito/v9/Ja-W2r1mUFvMx9Mn05mLi3-_kf6ByYO6CLYdB4HQE-Y.woff2
+        - asset: https://fonts.gstatic.com/s/nunito/v9/jW9QvBetW8QNJxYXLrtuIYX0hVgzZQUfRDuZrPvH3D8.woff2
+          weight: 600
+        - asset: https://fonts.gstatic.com/s/nunito/v9/xcW9OnmNQS2wUr2mZnW3-IX0hVgzZQUfRDuZrPvH3D8.woff2
+          weight: 700
+
+
