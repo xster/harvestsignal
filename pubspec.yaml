@@ -5,6 +5,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  location: ^1.1.7
+  google_maps: ^3.2.2
   cupertino_icons: ^0.1.0
 
 dev_dependencies:
@@ -14,15 +16,18 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/load.gif
+
   fonts:
     - family: Nunito
       fonts:
-        - asset: https://fonts.gstatic.com/s/nunito/v9/ZvK1I6E_n0tqLlSfX5iQt4X0hVgzZQUfRDuZrPvH3D8.woff2
+        - asset: assets/fonts/Nunito-Light.ttf
           weight: 300
-        - asset: https://fonts.gstatic.com/s/nunito/v9/Ja-W2r1mUFvMx9Mn05mLi3-_kf6ByYO6CLYdB4HQE-Y.woff2
-        - asset: https://fonts.gstatic.com/s/nunito/v9/jW9QvBetW8QNJxYXLrtuIYX0hVgzZQUfRDuZrPvH3D8.woff2
+        - asset: assets/fonts/Nunito-Regular.ttf
+        - asset: assets/fonts/Nunito-SemiBold.ttf
           weight: 600
-        - asset: https://fonts.gstatic.com/s/nunito/v9/xcW9OnmNQS2wUr2mZnW3-IX0hVgzZQUfRDuZrPvH3D8.woff2
+        - asset: assets/fonts/Nunito-Bold.ttf
           weight: 700
 
 
