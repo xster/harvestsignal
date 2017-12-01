@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import 'package:google_maps_webservice/geocoding.dart';
+import 'package:location/location.dart' as gps;
 
 void main() => runApp(
   new MaterialApp(
@@ -18,9 +19,13 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    new Location().getLocation.then((Map<String,double> location) {
-      setState(() {
-        this.location = location;
+    new gps.Location().getLocation.then((Map<String,double> location) {
+      new GoogleMapsGeocoding(null).searchByLocation(
+        new Location(location['latitude'], location['longitude'])
+      ).then((GeocodingResponse response) {
+        if (response.status == GoogleResponseStatus.okay) {
+          print(response.results[0].addressComponents);
+        }
       });
     });
   }
@@ -46,7 +51,6 @@ class HomeState extends State<Home> {
                 fontSize: 48.0,
                 color: const Color(0xFF222222),
                 ))),
-          new Text(location?.toString()),
         ],
       ),
     );
