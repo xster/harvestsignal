@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_webservice/geocoding.dart';
-import 'package:location/location.dart' as gps;
+
+import 'api.dart';
 
 void main() => runApp(
   new MaterialApp(
     home: new Scaffold(
-      body: new Home())));
+      body: new DefaultTextStyle(
+        style: const TextStyle(
+          fontFamily: 'Nunito'),
+        child: new Home()))));
 
 class Home extends StatefulWidget {
   @override
@@ -14,18 +17,16 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   bool loading = true;
-  Map<String,double> location;
+  List<Map<String, dynamic>> produce;
 
   @override
   void initState() {
     super.initState();
-    new gps.Location().getLocation.then((Map<String,double> location) {
-      new GoogleMapsGeocoding(null).searchByLocation(
-        new Location(location['latitude'], location['longitude'])
-      ).then((GeocodingResponse response) {
-        if (response.status == GoogleResponseStatus.okay) {
-          print(response.results[0].addressComponents);
-        }
+    getZipCode().then((String zipCode) {
+      getProduce(zipCode).then((List<Map<String, dynamic>> result) {
+        setState(() {
+          produce = result;
+        });
       });
     });
   }
@@ -33,25 +34,60 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<Widget> stackChildren = <Widget>[];
-    if (location == null) {
+    if (produce == null) {
       stackChildren.add(new Center(child: new Image.asset('assets/load.gif')));
     }
 
+    List<Widget> items = <Widget> [new SliverPersistentHeader(
+      delegate: new SliverPersistentHeaderDelegate(
+
+      ),
+    )
+    SliverAppBar(
+      backgroundColor: Colors.white,
+
+      title: const Text(
+        'Harvest',
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 48.0,
+          color: const Color(0xFF222222),
+        ),
+      ),
+    )];
+
+    if (produce != null) {
+      items.add(
+        new SliverGrid.count(
+          crossAxisCount: 2,
+          children: produce.map((Map<String, dynamic> item) {
+            return new Card(
+              elevation: 10.0,
+              child: new Stack(
+                children: <Widget>[
+                  new Image.network('https://harvestsignal.com/assets/produce-pictures/${item['slug']}.jpg'),
+                  new Align(
+                    alignment: FractionalOffset.topLeft,
+                    child: new Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 6.0,
+                      ),
+                      color: const Color(0x77FFFFFF),
+                      child: new Text(item['produce_name'])
+                    ),
+                  ),
+                ]
+              ),
+            );
+          }).toList(),
+        ),
+      );
+    }
+
     stackChildren.add(
-      new ListView(
-        children: <Widget>[
-          const Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 24.0),
-            child: const Text(
-              'Harvest',
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 48.0,
-                color: const Color(0xFF222222),
-                ))),
-        ],
+      new CustomScrollView(
+        slivers: items,
       ),
     );
 
