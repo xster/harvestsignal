@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'api.dart';
 
 void main() => runApp(
-  new MaterialApp(
-    home: new Scaffold(
-      body: new DefaultTextStyle(
+  MaterialApp(
+    home: const Scaffold(
+      body: const DefaultTextStyle(
         style: const TextStyle(
           fontFamily: 'Nunito'),
-        child: new Home()))));
+        child: const Home()))));
 
 class Home extends StatefulWidget {
+  const Home();
+
   @override
-  State<StatefulWidget> createState() => new HomeState();
+  State<StatefulWidget> createState() => HomeState();
 }
 
 class HomeState extends State<Home> {
@@ -22,6 +24,7 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
     getZipCode().then((String zipCode) {
       getProduce(zipCode).then((List<Map<String, dynamic>> result) {
         setState(() {
@@ -38,37 +41,39 @@ class HomeState extends State<Home> {
       stackChildren.add(new Center(child: new Image.asset('assets/load.gif')));
     }
 
-    List<Widget> items = <Widget> [new SliverPersistentHeader(
-      delegate: new SliverPersistentHeaderDelegate(
+    List<Widget> items = <Widget> [
+    //   new SliverPersistentHeader(
+    //   delegate: new SliverPersistentHeaderDelegate(
 
-      ),
-    )
-    SliverAppBar(
-      backgroundColor: Colors.white,
+    //   ),
+    // )
+    ];
+    // SliverAppBar(
+    //   backgroundColor: Colors.white,
 
-      title: const Text(
-        'Harvest',
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 48.0,
-          color: const Color(0xFF222222),
-        ),
-      ),
-    )];
+    //   title: const Text(
+    //     'Harvest',
+    //     style: const TextStyle(
+    //       fontFamily: 'Nunito',
+    //       fontSize: 48.0,
+    //       color: const Color(0xFF222222),
+    //     ),
+    //   ),
+    // )];
 
     if (produce != null) {
       items.add(
-        new SliverGrid.count(
+        SliverGrid.count(
           crossAxisCount: 2,
           children: produce.map((Map<String, dynamic> item) {
             return new Card(
               elevation: 10.0,
-              child: new Stack(
+              child: Stack(
                 children: <Widget>[
-                  new Image.network('https://harvestsignal.com/assets/produce-pictures/${item['slug']}.jpg'),
+                  Image.network('https://harvestsignal.com/assets/produce-pictures/${item['slug']}.jpg'),
                   new Align(
                     alignment: FractionalOffset.topLeft,
-                    child: new Container(
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12.0,
                         vertical: 6.0,
@@ -86,11 +91,11 @@ class HomeState extends State<Home> {
     }
 
     stackChildren.add(
-      new CustomScrollView(
+      CustomScrollView(
         slivers: items,
       ),
     );
 
-    return new Stack(children: stackChildren);
+    return Stack(children: stackChildren);
   }
 }

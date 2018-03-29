@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 
 Future<String> getZipCode() async {
-  final Map<String, double> currentLocation = await new gps.Location().getLocation;
+  final Map<String, double> currentLocation = await gps.Location().getLocation;
   final GeocodingResponse geocodingResponse =
-      await new GoogleMapsGeocoding(null).searchByLocation(
-        new Location(currentLocation['latitude'], currentLocation['longitude'])
+      await GoogleMapsGeocoding(null).searchByLocation(
+        Location(currentLocation['latitude'], currentLocation['longitude'])
       );
   if (geocodingResponse.status == GoogleResponseStatus.okay) {
     return geocodingResponse.results[0].addressComponents.singleWhere(
@@ -31,6 +31,6 @@ Future<List<Map<String, dynamic>>> getProduce(String zipCode) async {
     return null;
   }
 
-  final Map<String, List<dynamic>> rootJson = JSON.decode(response.body);
+  final Map<String, List<dynamic>> rootJson = json.decode(response.body);
   return rootJson['data'];
 }
